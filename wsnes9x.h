@@ -90,7 +90,7 @@
 #include <ddraw.h>
 #include <mmsystem.h>
 #ifndef __BORLANDC__
-#include <afxres.h>
+#include "afxres.h"
 #include <dsound.h>
 #endif
 #include "resource.h"

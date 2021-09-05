@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Snes9X", "snes9xw.vcproj", "{D1907E94-0A7C-4908-A386-39AA5312CF32}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		C core = C core
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.C core.ActiveCfg = C core|Win32
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.C core.Build.0 = C core|Win32
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.Debug.ActiveCfg = Debug|Win32
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.Debug.Build.0 = Debug|Win32
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.Release.ActiveCfg = Release|Win32
+		{D1907E94-0A7C-4908-A386-39AA5312CF32}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

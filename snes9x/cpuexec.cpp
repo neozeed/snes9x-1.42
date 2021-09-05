@@ -234,7 +234,7 @@ void S9xDoHBlankProcessing ()
 	break;
 
     case HBLANK_END_EVENT:
-	S9xSuperFXExec ();
+		S9xSuperFXExec ();
 
 #ifndef STORM
 	if (Settings.SoundSync)

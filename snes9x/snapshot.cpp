@@ -577,7 +577,7 @@ static void Freeze (STREAM stream)
     int i;
 	
     S9xSetSoundMute (TRUE);
-#ifdef ZSNES_FX
+#ifdef ZSNES_FX_This_isnt_in_C
     if (Settings.SuperFX)
 		S9xSuperFXPreSaveState ();
 #endif
@@ -634,7 +634,7 @@ static void Freeze (STREAM stream)
 	}
 
     S9xSetSoundMute (FALSE);
-#ifdef ZSNES_FX
+#ifdef ZSNES_FX_this_isnt_in_C
     if (Settings.SuperFX)
 		S9xSuperFXPostSaveState ();
 #endif
@@ -767,14 +767,16 @@ static int Unfreeze (STREAM stream)
     S9xUnpackStatus ();
     S9xFixCycles ();
     S9xReschedule ();
-#ifdef ZSNES_FX
+#ifdef ZSNES_FX_this_isnt_in_C
     if (Settings.SuperFX)
 		S9xSuperFXPostLoadState ();
 #endif
 	
     S9xSRTCPostLoadState ();
+#if 0
     if (Settings.SDD1)
 		S9xSDD1PostLoadState ();
+#endif	//this isnt in C
 	
     return (SUCCESS);
 }
@@ -1526,7 +1528,7 @@ fread(&temp, 1, 4, fs);
 		S9xUnpackStatus ();
 		S9xFixCycles ();
 		S9xReschedule ();
-#ifdef ZSNES_FX
+#ifdef ZSNES_FX_this_isnt_in_C
 		if (Settings.SuperFX)
 			S9xSuperFXPostLoadState ();
 #endif

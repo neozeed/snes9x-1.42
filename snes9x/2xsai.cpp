@@ -81,11 +81,13 @@
 #include "port.h"
 #include "gfx.h"
 
+#if 0
 #if (defined(USE_X86_ASM) && (defined (__i386__) || defined (__i486__) || \
                defined (__i586__) || defined (__WIN32__) || defined (__DJGPP)))
 #  ifndef MMX
 #    define MMX
 #  endif
+#endif
 #endif
 
 extern "C"

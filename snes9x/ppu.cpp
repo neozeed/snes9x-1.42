@@ -93,8 +93,11 @@
 #include "fxinst.h"
 extern struct FxInit_s SuperFX;
 #else
-EXTERN_C void S9xSuperFXWriteReg (uint8, uint32);
-EXTERN_C uint8 S9xSuperFXReadReg (uint32);
+#include "fxemu.h"
+#include "fxinst.h"
+extern struct FxInit_s SuperFX;
+//EXTERN_C void S9xSuperFXWriteReg (uint8, uint32);
+//EXTERN_C uint8 S9xSuperFXReadReg (uint32);
 #endif
 
 uint32 justifiers=0xFFFF00AA;
@@ -973,10 +976,10 @@ void S9xSetPPU (uint8 Byte, uint16 Address)
 						return;
 					}
 
-#ifdef ZSNES_FX
+#ifdef ZSNES_FX	//S9xSuperFXWriteReg this_is_missing
 					Memory.FillRAM [Address] = Byte;
-					if (Address < 0x3040)
-						S9xSuperFXWriteReg (Byte, Address);
+//					if (Address < 0x3040)
+//						S9xSuperFXWriteReg (Byte, Address);
 #else
 					switch (Address)
 					{
@@ -985,8 +988,9 @@ void S9xSetPPU (uint8 Byte, uint16 Address)
 						{
 							Memory.FillRAM [Address] = Byte;
 							// Go flag has been changed
-							if (Byte & FLG_G)
+							if (Byte & FLG_G){
 								S9xSuperFXExec ();
+							}
 							else
 								FxFlushCache ();
 						}
@@ -1481,10 +1485,10 @@ uint8 S9xGetPPU (uint16 Address)
 	
 	if (!Settings.SuperFX)
 			return OpenBus;
-#ifdef ZSNES_FX
-	if (Address < 0x3040)
-	    byte = S9xSuperFXReadReg (Address);
-	else
+#ifdef ZSNES_FX	//_this_is_missing
+//	if (Address < 0x3040)
+//	    byte = S9xSuperFXReadReg (Address);
+//	else
 	    byte = Memory.FillRAM [Address];
 
 #ifdef CPU_SHUTDOWN
@@ -3083,7 +3087,7 @@ void S9xUpdateJoypads ()
  
 }
 
-#ifndef ZSNES_FX
+//#ifndef ZSNES_FX
 void S9xSuperFXExec ()
 {
 #if 1
@@ -3255,4 +3259,4 @@ printf ("%06x: %d\n", t, FxEmulate (2000000));
     }
 #endif
 }
-#endif
+//#endif

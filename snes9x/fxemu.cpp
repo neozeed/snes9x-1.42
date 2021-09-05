@@ -78,6 +78,9 @@
 #include <string.h>
 #include <stdio.h>
 
+//why isn't this declared?
+struct FxInit_s SuperFX;
+
 /* The FxChip Emulator's internal variables */
 struct FxRegs_s GSU = FxRegs_s_null;
 

@@ -88,8 +88,16 @@
 #include "spc7110.h"
 #include "obc1.h"
 
+//relocated above to be a prototype
+#ifdef ZSNES_FX
+START_EXTERN_C
+void S9xResetSuperFX ();
+bool8 WinterGold = 0;
+extern uint8 *C4Ram;
+END_EXTERN_C
+#endif
 
-#ifndef ZSNES_FX
+//#ifndef ZSNES_FX
 #include "fxemu.h"
 
 extern struct FxInit_s SuperFX;
@@ -99,7 +107,7 @@ void S9xResetSuperFX ()
     SuperFX.vFlags = 0; //FX_FLAG_ROM_BUFFER;// | FX_FLAG_ADDRESS_CHECKING;
     FxReset (&SuperFX);
 }
-#endif
+//#endif
 
 void S9xResetCPU ()
 {
@@ -151,13 +159,6 @@ void S9xResetCPU ()
     S9xUnpackStatus();
 }
 
-#ifdef ZSNES_FX
-START_EXTERN_C
-void S9xResetSuperFX ();
-bool8 WinterGold = 0;
-extern uint8 *C4Ram;
-END_EXTERN_C
-#endif
 
 void S9xReset (void)
 {

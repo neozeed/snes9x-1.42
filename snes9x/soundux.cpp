@@ -83,6 +83,7 @@
 #include <errno.h>
 #include <fcntl.h>
 
+
 #define CLIP16(v) \
 	if ((v) < -32768) \
     (v) = -32768; \
@@ -505,8 +506,9 @@ void AltDecodeBlock (Channel *ch)
     if ((ch->last_block = filter & 1))
 		ch->loop = (filter & 2) != 0;
 	
-#if (defined (USE_X86_ASM) && (defined (__i386__) || defined (__i486__) ||\
-               defined (__i586__) || defined (__WIN32__) || defined (__DJGPP)))
+// #if (defined (USE_X86_ASM) && (defined (__i386__) || defined (__i486__) ||\
+               //defined (__i586__) || defined (__WIN32__) || defined (__DJGPP)))
+#if 0
     int16 *raw = ch->block = ch->decoded;
 	
     if (Settings.AltSampleDecode == 1)

@@ -372,6 +372,7 @@ void S9xSetST010(uint32 Address, uint8 Byte)
 		case 0x04:
 			{
 				int16 square, x,y;
+				double lsquare, lx,ly;
 #ifdef FAST_LSB_WORD_ACCESS
 				x=*((int16*)Memory.SRAM);
 				y=*((int16*)&Memory.SRAM[2]);
@@ -379,7 +380,14 @@ void S9xSetST010(uint32 Address, uint8 Byte)
 				x=Memory.SRAM[0]|(Memory.SRAM[1]<<8);
 				y=Memory.SRAM[2]|(Memory.SRAM[3]<<8);
 #endif
-				square=(int16)sqrt(x*x+y*y);
+				//JASON
+				//tthe sqrt is ambigious so Im just ignoring it now.
+				//also yes, I suck at casting.
+				//square=(int16)sqrt(x*x+y*y);
+				lx=(double)x;
+				ly=(double)y;
+				lsquare=sqrt(lx*lx+ly*ly);
+				square=(int16)lsquare;
 
 #ifdef FAST_LSB_WORD_ACCESS
 				*((int32*)&Memory.SRAM[0x10])=square;

@@ -94,7 +94,15 @@
 
 #include <TCHAR.H>
 
-#include <fstream.h>
+//#include <fstream.h>
+//C++ of course is too cool for headers
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ios>
+
+
+#include <io.h>
 #include <sys/stat.h>
 #include "string_cache.h"
 
@@ -795,7 +803,7 @@ LRESULT CALLBACK WinProc(
 					break;
 				case IDM_GFX_PACKS:
 					RestoreGUIDisplay ();  //exit DirectX
-					DialogBox(g_hInst, MAKEINTRESOURCE(IDD_GFX_PACK), hWnd, DlgPackConfigProc);
+					DialogBox(g_hInst, MAKEINTRESOURCE(IDD_GFX_PACK), hWnd, (DLGPROC)DlgPackConfigProc);
 					RestoreSNESDisplay ();// re-enter after dialog
 					break;
 				case IDM_CATCH_UP_SOUND:
@@ -891,7 +899,7 @@ LRESULT CALLBACK WinProc(
 						//showFPS = Settings.DisplayFrameRate ? true : false;
 						if (!VOODOO_MODE && !GUI.FullScreen)
 							GetWindowRect (GUI.hWnd, &GUI.window_size);
-						DialogBox(g_hInst, MAKEINTRESOURCE(IDD_NEWDISPLAY), hWnd, DlgFunky);
+						DialogBox(g_hInst, MAKEINTRESOURCE(IDD_NEWDISPLAY), hWnd, (DLGPROC)DlgFunky);
 						//_DirectXConfig (DirectX.lpDD, &Settings, &GUI, &showFPS);
 						
 						//Settings.DisplayFrameRate = showFPS;
@@ -932,7 +940,7 @@ LRESULT CALLBACK WinProc(
 					}
 				case ID_OPTIONS_JOYPAD:
                     RestoreGUIDisplay ();
-					DialogBox(g_hInst, MAKEINTRESOURCE(IDD_INPUTCONFIG), hWnd, DlgInputConfig);
+					DialogBox(g_hInst, MAKEINTRESOURCE(IDD_INPUTCONFIG), hWnd, (DLGPROC)DlgInputConfig);
                     RestoreSNESDisplay ();
                     break;
 					
@@ -955,7 +963,7 @@ LRESULT CALLBACK WinProc(
 						icex.dwICC   = ICC_LISTVIEW_CLASSES|ICC_TREEVIEW_CLASSES;
 						InitCommonControlsEx(&icex);
 						
-						if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_OPEN_ROM), hWnd, DlgOpenROMProc, (LPARAM)filename))
+						if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_OPEN_ROM), hWnd, (DLGPROC)DlgOpenROMProc, (LPARAM)filename))
 							
 						{
 							if (!Settings.StopEmulation)
@@ -1031,7 +1039,7 @@ LRESULT CALLBACK WinProc(
                     break;
                 case ID_NETPLAY_CONNECT:
                     RestoreGUIDisplay ();
-					if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NETCONNECT), hWnd, DlgNetConnect,(LPARAM)&hostname))
+					if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NETCONNECT), hWnd, (DLGPROC)DlgNetConnect,(LPARAM)&hostname))
 
                     {
 
@@ -1063,7 +1071,7 @@ LRESULT CALLBACK WinProc(
 					{
 						bool8 old_netplay_server = Settings.NetPlayServer;
 						RestoreGUIDisplay ();
-						if(1<=DialogBox(g_hInst, MAKEINTRESOURCE(IDD_NPOPTIONS), hWnd, DlgNPOptions))
+						if(1<=DialogBox(g_hInst, MAKEINTRESOURCE(IDD_NPOPTIONS), hWnd, (DLGPROC)DlgNPOptions))
 						{
 							if (old_netplay_server != Settings.NetPlayServer)
 							{
@@ -1180,7 +1188,7 @@ LRESULT CALLBACK WinProc(
 					{
 						struct SSettings orig = Settings;
 						RestoreGUIDisplay ();
-						if(1<=DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_SOUND_OPTS),hWnd,DlgSoundConf, (LPARAM)&Settings))
+						if(1<=DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_SOUND_OPTS),hWnd,(DLGPROC)DlgSoundConf, (LPARAM)&Settings))
 						{
 							if (orig.NextAPUEnabled != Settings.NextAPUEnabled)
 							{
@@ -1356,14 +1364,14 @@ LRESULT CALLBACK WinProc(
 								case ID_CHEAT_ENTER:
 									RestoreGUIDisplay ();
 									S9xRemoveCheats ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEATER), hWnd, DlgCheater);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEATER), hWnd, (DLGPROC)DlgCheater);
 									S9xSaveCheatFile (S9xGetFilename (".cht"));
 									S9xApplyCheats ();
 									RestoreSNESDisplay ();
 									break;
 								case ID_CHEAT_SEARCH:
 									RestoreGUIDisplay ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEAT_SEARCH), hWnd, DlgCheatSearch);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_CHEAT_SEARCH), hWnd, (DLGPROC)DlgCheatSearch);
 									S9xSaveCheatFile (S9xGetFilename (".cht"));
 									RestoreSNESDisplay ();
 									break;
@@ -1376,12 +1384,12 @@ LRESULT CALLBACK WinProc(
 									break;
 								case ID_OPTIONS_SETTINGS:
 									RestoreGUIDisplay ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EMU_SETTINGS), hWnd, DlgEmulatorProc);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EMU_SETTINGS), hWnd, (DLGPROC)DlgEmulatorProc);
 									RestoreSNESDisplay ();
 									break;
 								case ID_HELP_ABOUT:
 									RestoreGUIDisplay ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), hWnd, DlgAboutProc);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), hWnd, (DLGPROC)DlgAboutProc);
 									RestoreSNESDisplay ();
 									break;
 #ifdef DEBUGGER
@@ -1398,7 +1406,7 @@ LRESULT CALLBACK WinProc(
 #endif
 								case IDM_7110_CACHE:
 									RestoreGUIDisplay ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_SPC7110_CACHE), hWnd, DlgSP7PackConfig);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_SPC7110_CACHE), hWnd, (DLGPROC)DlgSP7PackConfig);
 									RestoreSNESDisplay ();
 									break;
 								case IDM_LOG_7110:
@@ -1406,7 +1414,7 @@ LRESULT CALLBACK WinProc(
 									break;
 								case IDM_ROM_INFO:
 									RestoreGUIDisplay ();
-									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ROM_INFO), hWnd, DlgInfoProc);
+									DialogBox(g_hInst, MAKEINTRESOURCE(IDD_ROM_INFO), hWnd, (DLGPROC)DlgInfoProc);
 									RestoreSNESDisplay ();
 									break;
 								default:
@@ -2311,7 +2319,7 @@ void WinLoad( void)
                 cbData = _MAX_PATH + 1;
                 RegQueryValueEx (hKey, tmp, 0, NULL,
 					(unsigned char *) path, &cbData);
-                GUI.RecentGames [j] = strdup (path);
+                GUI.RecentGames [j] = _strdup (path);
             }
         }
         RegCloseKey( hKey);
@@ -2538,8 +2546,8 @@ int WINAPI WinMain(
 	
 	
     Settings.StopEmulation = true;
-    GUI.hFrameTimer = timeSetEvent (20, 0, FrameTimer, 0, TIME_PERIODIC);
-    GUI.hSoundTimer = timeSetEvent (5, 0, SoundTimer, 0, TIME_PERIODIC);
+    GUI.hFrameTimer = timeSetEvent (20, 0, (LPTIMECALLBACK)FrameTimer, 0, TIME_PERIODIC);
+    GUI.hSoundTimer = timeSetEvent (5, 0, (LPTIMECALLBACK)SoundTimer, 0, TIME_PERIODIC);
 	
     GUI.FrameTimerSemaphore = CreateSemaphore (NULL, 0, 10, NULL);
     GUI.ServerTimerSemaphore = CreateSemaphore (NULL, 0, 10, NULL);
@@ -2641,9 +2649,10 @@ loop_exit:
     }
     if (!VOODOO_MODE && !GUI.FullScreen)
         GetWindowRect (GUI.hWnd, &GUI.window_size);
-	
-    if (OPENGL_MODE)
-        S9xOpenGLDeinit ();
+#ifdef OPENGL_MODE
+//    if (OPENGL_MODE)
+//        S9xOpenGLDeinit ();
+#endif
 	
     WinSave ();
 	Memory.Deinit();
@@ -2652,9 +2661,12 @@ loop_exit:
 		S9xGlideDeinit();
 	else if (Settings.OpenGLEnable)
 #else
-		if (Settings.OpenGLEnable)
+
 #endif 
-			S9xOpenGLDeinit();
+#ifdef OPENGL_MODE
+//		if (Settings.OpenGLEnable)
+//			S9xOpenGLDeinit();
+#endif
 		S9xGraphicsDeinit();
 		S9xDeinitAPU();
 		WinDeleteRecentGamesList ();
@@ -2959,7 +2971,7 @@ static void ResetFrameTimer ()
     if (GUI.hFrameTimer)
         timeKillEvent (GUI.hFrameTimer);
 	
-    GUI.hFrameTimer = timeSetEvent (Settings.FrameTime, 0, FrameTimer,
+    GUI.hFrameTimer = timeSetEvent (Settings.FrameTime, 0, (LPTIMECALLBACK)FrameTimer,
 		0, TIME_PERIODIC);
 }
 
@@ -3014,7 +3026,7 @@ bool8 S9xLoadROMImage (const TCHAR *string)
 	icex.dwICC   = ICC_LISTVIEW_CLASSES|ICC_TREEVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 	
-	if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_OPEN_ROM), GUI.hWnd, DlgOpenROMProc, (LPARAM)FileName))
+	if(1<=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_OPEN_ROM), GUI.hWnd, (DLGPROC)DlgOpenROMProc, (LPARAM)FileName))
     {
         if (!Settings.StopEmulation)
         {
@@ -3331,7 +3343,7 @@ void S9xAddToRecentGames (const char *filename)
     if (!GUI.RecentGames)
     {
         GUI.RecentGames = new char *[2];
-        GUI.RecentGames [0] = strdup (filename);
+        GUI.RecentGames [0] = _strdup (filename);
         GUI.RecentGames [1] = NULL;
     }
     else
@@ -3363,7 +3375,7 @@ void S9xAddToRecentGames (const char *filename)
 					memmove (&t [1], GUI.RecentGames, sizeof (char *) * (i + 1));
 					delete GUI.RecentGames;
 					GUI.RecentGames = t;
-					GUI.RecentGames [0] = strdup (filename);
+					GUI.RecentGames [0] = _strdup (filename);
 				}
 				else
 				{
@@ -3371,7 +3383,7 @@ void S9xAddToRecentGames (const char *filename)
 					free (GUI.RecentGames [i - 1]);
 					memmove (&GUI.RecentGames [1], &GUI.RecentGames [0],
 						sizeof (char *) * (MAX_RECENT_GAMES_LIST_SIZE - 1));
-					GUI.RecentGames [0] = strdup (filename);
+					GUI.RecentGames [0] = _strdup (filename);
 				}
 			}
     }
@@ -4709,7 +4721,7 @@ void rominfo(const TCHAR *filename, TCHAR *namebuffer, TCHAR *sizebuffer)
 	
 	if (filestats.st_size >= 0x8000)
 	{ 
-		ifstream ROMFile(filename, ios::in | ios::binary);
+		std::ifstream ROMFile(filename, std::ios::in | std::ios::binary);
 		if (ROMFile)
 		{
 			int HasHeadScore = 0, NoHeadScore = 0,
@@ -4754,7 +4766,7 @@ void rominfo(const TCHAR *filename, TCHAR *namebuffer, TCHAR *sizebuffer)
 			bool EHi = false;
 			if (filestats.st_size - HeaderSize >= 0x500000)    
 			{
-				ROMFile.seekg(0x40FFC0 + HeaderSize, ios::beg);
+				ROMFile.seekg(0x40FFC0 + HeaderSize, std::ios::beg);
 				ROMFile.read((char *)HeaderBuffer, INFO_LEN);
 				if (InfoScore((char *)HeaderBuffer) > 1)
 				{
@@ -4769,11 +4781,11 @@ void rominfo(const TCHAR *filename, TCHAR *namebuffer, TCHAR *sizebuffer)
 				{
 					char LoHead[INFO_LEN], HiHead[INFO_LEN];
 					
-					ROMFile.seekg(0x7FC0 + HeaderSize, ios::beg);
+					ROMFile.seekg(0x7FC0 + HeaderSize, std::ios::beg);
 					ROMFile.read(LoHead, INFO_LEN);
 					int LoScore = InfoScore(LoHead);
 					
-					ROMFile.seekg(0xFFC0 + HeaderSize, ios::beg);
+					ROMFile.seekg(0xFFC0 + HeaderSize, std::ios::beg);
 					ROMFile.read(HiHead, INFO_LEN);
 					int HiScore = InfoScore(HiHead);
 					
@@ -4781,7 +4793,7 @@ void rominfo(const TCHAR *filename, TCHAR *namebuffer, TCHAR *sizebuffer)
 					
 					if (filestats.st_size - HeaderSize >= 0x20000)
 					{
-						ROMFile.seekg((filestats.st_size - HeaderSize) / 2 + 0x7FC0 + HeaderSize, ios::beg);
+						ROMFile.seekg((filestats.st_size - HeaderSize) / 2 + 0x7FC0 + HeaderSize, std::ios::beg);
 						ROMFile.read(LoHead, INFO_LEN);
 						int IntLScore = InfoScore(LoHead) / 2;
 						
@@ -4793,7 +4805,7 @@ void rominfo(const TCHAR *filename, TCHAR *namebuffer, TCHAR *sizebuffer)
 				}
 				else //ROM only has one block
 				{
-					ROMFile.seekg(0x7FC0 + HeaderSize, ios::beg);
+					ROMFile.seekg(0x7FC0 + HeaderSize, std::ios::beg);
 					ROMFile.read(namebuffer, 21);
 				}
 			}
@@ -6074,13 +6086,13 @@ void LoadExts(void)
 	valid_ext=new ExtList;
 	curr=valid_ext;
 	ZeroMemory(curr, sizeof(ExtList));
-	ifstream in;
-	in.open("Valid.Ext", ios::in|ios::nocreate);
+	std::ifstream in;
+	in.open("Valid.Ext", std::ios::in);	//|std::ios::nocreate);	JASON nocreate not found!
 	if (!in.is_open())
 	{
 		in.clear();
 		MakeExtFile();
-		in.open("Valid.Ext", ios::in|ios::nocreate);
+		in.open("Valid.Ext", std::ios::in);	//|std::ios::nocreate);
 		if(!in.is_open())
 		{
 			MessageBox(GUI.hWnd, "Fatal Error: The File \"Valid.Ext\" could not be found or created.", "Error", MB_ICONERROR|MB_OK);
@@ -6117,14 +6129,21 @@ void LoadExts(void)
 
 void MakeExtFile(void)
 {
-	ofstream out;
+	std::ofstream out;
 	out.open("Valid.Ext");
-	
+#if 0
 	out<<"N"   <<endl<<"smcN"<<endl<<"zipY"<<endl<<"gzY" <<endl<<"swcN"<<endl<<"figN"<<endl;
 	out<<"058N"<<endl<<"078N"<<endl<<"japN"<<endl<<"usaN"<<endl<<"048N"<<endl;
 	out<<"eurN"<<endl<<"sfcN"<<endl<<"1N"  <<endl<<"mgdN"<<endl<<"ufoN"<<endl;
 	out<<"binN"<<endl<<"gd3N"<<endl<<"mghN"<<endl<<"gd7N"<<endl<<"ausN"<<endl;
 	out<<"dx2N"<<endl<<"aN";
+#else
+		out<<"N"   <<std::endl<<"smcN"<<std::endl<<"zipY"<<std::endl<<"gzY" 	<<std::endl<<"swcN"<<std::endl<<"figN"<<std::endl;
+	out<<"058N"<<std::endl<<"078N"<<std::endl<<"japN"<<std::endl<<"usaN"<<std::endl<<"048N"<<std::endl;
+	out<<"eurN"<<std::endl<<"sfcN"<<std::endl<<"1N"  <<std::endl<<"mgdN"<<std::endl<<"ufoN"<<std::endl;
+	out<<"binN"<<std::endl<<"gd3N"<<std::endl<<"mghN"<<std::endl<<"gd7N"<<std::endl<<"ausN"<<std::endl;
+	out<<"dx2N"<<std::endl<<"aN";
+#endif
 	out.close();
 	SetFileAttributes("Valid.Ext", FILE_ATTRIBUTE_ARCHIVE|FILE_ATTRIBUTE_READONLY);
 };
@@ -9023,7 +9042,7 @@ int CALLBACK DlgCheatSearch(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 						}
 
 						//invoke dialog
-						if(!DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHEAT_FROM_SEARCH), hDlg, DlgCheatSearchAdd, (LPARAM)&cht))
+						if(!DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHEAT_FROM_SEARCH), hDlg, (DLGPROC)DlgCheatSearchAdd,(LPARAM)&cht))
 						{
 							int p;
 							for(p=0; p<cht.size; p++)

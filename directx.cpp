@@ -75,6 +75,7 @@
 // DirectX.cpp: implementation of the CDirectX class.
 //
 //////////////////////////////////////////////////////////////////////
+#include <InitGuid.h>
 
 #include "wsnes9x.h"
 #include "snes9x/snes9x.h"

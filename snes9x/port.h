@@ -123,6 +123,7 @@ int    strcasecmp(const char *s1, const char *s2 );
 
 #ifndef NOASM
 #define USE_X86_ASM
+#error
 #endif
 
 #ifndef snes9x_types_defined
@@ -213,8 +214,8 @@ void _makepath (char *path, const char *drive, const char *dir,
 void _splitpath (const char *path, char *drive, char *dir, char *fname,
 		 char *ext);
 #else /* __WIN32__ */
-#define strcasecmp stricmp
-#define strncasecmp strnicmp
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp	//warning C4996: 'strdup': The POSIX name for this item is deprecated.
 #endif
 
 EXTERN_C void S9xGenerateSound ();
